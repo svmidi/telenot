@@ -1,0 +1,211 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form-telenot" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+			</div>
+			<h1>{{ heading_title }}</h1>
+			<ul class="breadcrumb">
+			{% for breadcrumb in breadcrumbs %}
+			<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+<div class="container-fluid">
+	{% if error_warning %}
+	<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+	</div>
+	{% endif %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_description }}</h3>
+		</div>
+		<div class="panel-body">
+		<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-telenot" class="form-horizontal">
+
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#tab-notice" data-toggle="tab">{{ tab_notice }}</a></li>
+			<li><a href="#tab-settings" data-toggle="tab">{{ tab_settings }}</a></li>
+		</ul>
+		<div class="tab-content">
+
+			<div class="tab-pane active in" id="tab-sending">
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-to">{{ entry_to }}</label>
+					<div class="col-sm-10">
+						<select name="input_to" id="input-to" class="form-control">
+							<option value="0">{{ text_all }}</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group hide" id="arbitrary">
+					<label class="col-sm-2 control-label" for="input-arbitrary">
+						<span data-toggle="tooltip" data-original-title="{{ help_arbitrary }}">{{ entry_arbitrary }}</span>
+					</label>
+					<div class="col-sm-10">
+						<input name="input_arbitrary" id="input-arbitrary" class="form-control digitOnly" value="" placeholder="{{ entry_arbitrary }}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-message">
+						<span data-toggle="tooltip" data-original-title="{{ help_message }}">{{ entry_message }}</span>
+					</label>
+					<div class="col-sm-10">
+						<textarea name="input-message" rows="5" placeholder="{{ entry_message }}" id="input-message" class="form-control"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button class="btn btn-default" type="button" id="send">{{ button_send }}</button>
+					</div>
+				</div>
+				<div id="multi-result"></div>
+			</div>
+
+			<div class="tab-pane fade" id="tab-notice">
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-enabled">{{ entry_enabled }}</label>
+					<div class="col-sm-10">
+						<select name="telenot-enabled" class="form-control">
+						{% if data['telenot-enabled'] == 0 %}
+							<option value="1">{{ text_enable }}</option>
+							<option value="0" selected="selected">{{ text_disable }}</option>
+						{% else %}
+							<option value="1" selected="selected">{{ text_enable }}</option>
+							<option value="0">{{ text_disable }}</option>
+						{% endif %}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-message-admin">
+						<span data-toggle="tooltip" data-original-title="{{ help_message_admin }}">{{ entry_message_admin }}</span>
+					</label>
+					<div class="col-sm-10">
+						<div class="btn-group-xs btn-group" role="group">
+							<button class="btn btn-default btni" type="button" data-insert="{OrderID}" data-target="input-message-admin">{{ button_orderid }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{StoreName}" data-target="input-message-admin">{{ button_storename }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{Total}" data-target="input-message-admin">{{ button_total }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{FirstName}" data-target="input-message-admin">{{ button_name }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{LastName}" data-target="input-message-admin">{{ button_lastname }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{City}" data-target="input-message-admin">{{ button_city }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{Address}" data-target="input-message-admin">{{ button_address }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{Phone}" data-target="input-message-admin">{{ button_phone }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{Comment}" data-target="input-message-admin">{{ button_comment }}</button>
+						</div>
+						<textarea name="telenot-message-admin" rows="5" placeholder="{{ entry_message_admin }}" id="input-message-admin" class="form-control">{{ data['telenot-message-admin'] }}</textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="tab-pane" id="tab-settings">
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-apikey">{{ entry_api_key }}</label>
+					<div class="col-sm-10">
+					  <input name="telenot-apikey" type="text" placeholder="{{ entry_api_key }}" id="input-apikey" class="form-control" value="{{ data['telenot-apikey'] }}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-phone">
+						<span data-toggle="tooltip" data-original-title="{{ help_phone }}">{{ entry_phone }}
+					</label>
+					<div class="col-sm-10">
+						<input name="telenot-phone" type="text" placeholder="{{ entry_phone }}" id="input-phone" class="form-control digitOnly" value="{{ data['telenot-phone'] }}">
+					</div>
+				</div>
+				<div id="result"></div>
+			</div>
+
+		</form>
+			
+		</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+
+	$("input[name=telenot-order-change]").change(function(){
+		if ($(this).is(':checked')) {
+			$("input[name=telenot-order-change-notice]").prop('disabled', false);
+		} else {
+			$("input[name=telenot-order-change-notice]").prop('disabled', true);
+			$("input[name=telenot-order-change-notice]").prop('checked', false);
+		}
+	});
+
+	$(".digitOnly").keyup(function() {
+		$(this).val($(this).val().replace(/[^\d,]/g, ''));
+	});
+
+	$("#send").click(function() {
+		if (($('#input-to option:selected').val() == 4) && ($('#input-arbitrary').val().length < 11)) {
+			$('#arbitrary').addClass('has-error');
+		} else {
+			$('#arbitrary').removeClass('has-error');
+			var data = "&telenot-sender="+$('#input-sender').val()+"&telenot-apikey="+$('#input-apikey').val()+"&message="+$('#input-message').val()+"&to="+$('#input-to option:selected').val()+"&arbitrary="+$('#input-arbitrary').val();
+			var btn = $(this);
+			btn.button('loading');
+			$.ajax({
+				type: "POST",
+				url: "index.php?route=extension/module/telenot/massend&user_token={{ user_token }}",
+				cache: false,
+				data: data,
+				success: function(html){
+					try {
+						jsonData = $.parseJSON(html);
+						if (jsonData['error'] != 100) {
+							$('#multi-result').html('<div class="alert alert-danger">'+jsonData['text']+'</div>');
+						} else {
+							$('#multi-result').html('<div class="alert alert-success">'+jsonData['text']+'</div>');
+							$('#balance').html('{{ entry_balance }} '+jsonData['balance']);
+						}
+					} catch (e) {
+						$('#multi-result').html('<div class="alert alert-danger">Error: ('+html+')</div>');
+					}
+					btn.button('reset');
+				},
+			});
+		}
+	});
+	jQuery.fn.extend({
+		insertAtCaret: function(myValue) {
+		return this.each(function(i) {
+			if (document.selection) {
+				this.focus();
+				var sel = document.selection.createRange();
+				sel.text = myValue;
+				this.focus();
+			} else if (this.selectionStart || this.selectionStart == '0') {
+				var startPos = this.selectionStart;
+				var endPos = this.selectionEnd;
+				var scrollTop = this.scrollTop;
+				this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+				this.focus();
+				this.selectionStart = startPos + myValue.length;
+				this.selectionEnd = startPos + myValue.length;
+				this.scrollTop = scrollTop;
+			} else {
+				this.value += myValue;
+				this.focus();
+			}
+		});
+		}
+	});
+
+	$('.btni').click(function() {
+		var target = $(this).data('target');
+		var text = $(this).data('insert');
+		$('#' + target).insertAtCaret(text);
+	});
+
+});
+</script>
+</div>
+{{ footer }}
