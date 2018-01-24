@@ -99,12 +99,6 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['cancel'] = $this->url->link('extension/extension', 'user_token=' . $this->session->data['user_token'], 'SSL');
 
 		$this->data['data'] = $this->model_setting_setting->getSetting('telenot');
-		/*print_r($this->data['data']);
-		$this->data['data']['telenot-chats'] = json_decode($this->data['data']['telenot-chats'], true);*/
-		print_r($this->data['data']['telenot-chats']);
-
-
-
 
 		$this->data['user_token'] = $this->session->data['user_token'];
 
@@ -118,7 +112,6 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->load->model('setting/event');
 
 		$this->model_setting_event->addEvent('telenot', 'catalog/controller/checkout/success/before', 'extension/module/telenot/onCheckout');
-		$this->model_setting_event->addEvent('telenot', 'catalog/model/checkout/order/addOrderHistory/after', 'extension/module/telenot/onHistoryChange');
 
 		$this->load->model('setting/setting');
 		$basic=array(
