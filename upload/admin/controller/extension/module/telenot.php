@@ -5,7 +5,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 	public function index() {
 
 		$this->load->language('extension/module/telenot');
-		$this->load->model('extension/module/telenot');
+
 		$this->load->model('localisation/language');
 		$this->load->model('setting/setting');
 
@@ -20,6 +20,10 @@ class ControllerExtensionModuleTelenot extends Controller {
 				$this->error['warning'] = $this->language->get('error_permission');
 				$this->session->data['error'] = 'You do not have permissions to edit this module!';
 			} else {
+				if ( is_array($this->request->post['input-chat']) ) {
+					$chats = json_encode($this->request->post['input-chat']);
+					$this->request->post['input-chat'] = $chats;
+				}
 				$this->model_setting_setting->editSetting('telenot', $this->request->post, 0);
 				$this->session->data['success'] = $this->language->get('text_success');
 			}
@@ -70,10 +74,11 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['button_status'] = $this->language->get('button_status');
 		$this->data['button_total'] = $this->language->get('button_total');
 
-		$this->data['tab_notice'] = $this->language->get('tab_notice');
+		$this->data['tab_help'] = $this->language->get('tab_help');
 		$this->data['tab_settings'] = $this->language->get('tab_settings');
 
-		$this->data['entry_chats'] = $this->language->get('entry_chats');
+		$this->data['entry_chat_id'] = $this->language->get('entry_chat_id');
+		$this->data['entry_chat_name'] = $this->language->get('entry_chat_name');
 		$this->data['entry_bot'] = $this->language->get('entry_bot');
 		$this->data['entry_enabled'] = $this->language->get('entry_enabled');
 		$this->data['entry_message'] = $this->language->get('entry_message');
@@ -94,6 +99,12 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['cancel'] = $this->url->link('extension/extension', 'user_token=' . $this->session->data['user_token'], 'SSL');
 
 		$this->data['data'] = $this->model_setting_setting->getSetting('telenot');
+		/*print_r($this->data['data']);
+		$this->data['data']['telenot-chats'] = json_decode($this->data['data']['telenot-chats'], true);*/
+		print_r($this->data['data']['telenot-chats']);
+
+
+
 
 		$this->data['user_token'] = $this->session->data['user_token'];
 
@@ -104,8 +115,6 @@ class ControllerExtensionModuleTelenot extends Controller {
 	}
 
 	public function install() {
-		$this->load->model('extension/module/telenot');
-		$this->model_extension_module_telenot->install();
 		$this->load->model('setting/event');
 
 		$this->model_setting_event->addEvent('telenot', 'catalog/controller/checkout/success/before', 'extension/module/telenot/onCheckout');
@@ -124,8 +133,6 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->load->model('setting/setting');
 
 		$this->model_setting_setting->deleteSetting('telenot_module',0);
-		$this->load->model('extension/module/telenot');
-		$this->model_extension_module_telenot->uninstall();
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEvent('telenot');
 	}

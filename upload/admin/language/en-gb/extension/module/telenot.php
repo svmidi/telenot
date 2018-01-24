@@ -13,10 +13,11 @@ $_['button_storename']         = 'Store name';
 $_['button_orderid']           = 'Order ID';
 $_['button_total']             = 'Total';
 
-$_['tab_notice']               = 'Notify';
+$_['tab_help']                 = 'Help';
 $_['tab_settings']             = 'Settings';
 
-$_['entry_chats']              = 'Chat ID:';
+$_['entry_chat_id']            = 'Chat ID:';
+$_['entry_chat_name']          = 'Name';
 $_['entry_message']            = 'Text:';
 $_['entry_enabled']            = 'Enable:';
 $_['entry_message']            = 'Message template:';

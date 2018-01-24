@@ -28,45 +28,16 @@
 		<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-telenot" class="form-horizontal">
 
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tab-notice" data-toggle="tab">{{ tab_notice }}</a></li>
-			<li><a href="#tab-settings" data-toggle="tab">{{ tab_settings }}</a></li>
+			<li class="active"><a href="#tab-settings" data-toggle="tab">{{ tab_settings }}</a></li>
+			<li><a href="#tab-help" data-toggle="tab">{{ tab_help }}</a></li>
 		</ul>
 		<div class="tab-content">
 
-			<div class="tab-pane active in" id="tab-sending">
-				<div class="form-group">
-					<label class="col-sm-2 control-label" for="input-to">{{ entry_to }}</label>
-					<div class="col-sm-10">
-						<select name="input_to" id="input-to" class="form-control">
-							<option value="0">{{ text_all }}</option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group hide" id="arbitrary">
-					<label class="col-sm-2 control-label" for="input-arbitrary">
-						<span data-toggle="tooltip" data-original-title="{{ help_arbitrary }}">{{ entry_arbitrary }}</span>
-					</label>
-					<div class="col-sm-10">
-						<input name="input_arbitrary" id="input-arbitrary" class="form-control digitOnly" value="" placeholder="{{ entry_arbitrary }}">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label" for="input-message">
-						<span data-toggle="tooltip" data-original-title="{{ help_message }}">{{ entry_message }}</span>
-					</label>
-					<div class="col-sm-10">
-						<textarea name="input-message" rows="5" placeholder="{{ entry_message }}" id="input-message" class="form-control"></textarea>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<button class="btn btn-default" type="button" id="send">{{ button_send }}</button>
-					</div>
-				</div>
-				<div id="multi-result"></div>
+			<div class="tab-pane fade" id="tab-help">
+				HELP ME
 			</div>
 
-			<div class="tab-pane fade" id="tab-notice">
+			<div class="tab-pane fade active in" id="tab-settings">
 				<div class="form-group">
 					<label class="col-sm-2 control-label" for="input-enabled">{{ entry_enabled }}</label>
 					<div class="col-sm-10">
@@ -82,8 +53,8 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-2 control-label" for="input-message-admin">
-						<span data-toggle="tooltip" data-original-title="{{ help_message_admin }}">{{ entry_message_admin }}</span>
+					<label class="col-sm-2 control-label" for="input-message">
+						<span data-toggle="tooltip" data-original-title="{{ help_message }}">{{ entry_message }}</span>
 					</label>
 					<div class="col-sm-10">
 						<div class="btn-group-xs btn-group" role="group">
@@ -97,48 +68,79 @@
 							<button class="btn btn-default btni" type="button" data-insert="{Phone}" data-target="input-message-admin">{{ button_phone }}</button>
 							<button class="btn btn-default btni" type="button" data-insert="{Comment}" data-target="input-message-admin">{{ button_comment }}</button>
 						</div>
-						<textarea name="telenot-message-admin" rows="5" placeholder="{{ entry_message_admin }}" id="input-message-admin" class="form-control">{{ data['telenot-message-admin'] }}</textarea>
+						<textarea name="telenot-message" rows="5" placeholder="{{ entry_message }}" id="input-message" class="form-control">{{ data['telenot-message'] }}</textarea>
 					</div>
 				</div>
-			</div>
 
-			<div class="tab-pane" id="tab-settings">
 				<div class="form-group">
 					<label class="col-sm-2 control-label" for="input-apikey">{{ entry_api_key }}</label>
 					<div class="col-sm-10">
 					  <input name="telenot-apikey" type="text" placeholder="{{ entry_api_key }}" id="input-apikey" class="form-control" value="{{ data['telenot-apikey'] }}">
 					</div>
 				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label" for="input-phone">
-						<span data-toggle="tooltip" data-original-title="{{ help_phone }}">{{ entry_phone }}
-					</label>
-					<div class="col-sm-10">
-						<input name="telenot-phone" type="text" placeholder="{{ entry_phone }}" id="input-phone" class="form-control digitOnly" value="{{ data['telenot-phone'] }}">
-					</div>
-				</div>
+
+
+
+				<table id="chats" class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<td class="text-left">{{ entry_chat_id }}</td>
+						<td class="text-left">{{ entry_chat_name }}</td>
+						<td></td>
+					</tr>
+				</thead>
+				<tbody>
+					{% set chat_row = 0 %}
+					{% if data['telenot-chats'] %}
+					{% for chat in data['telenot-chats'] %}
+					<tr id="chat_row{{ chat_row }}">
+						<td class="text-left">
+						<input type="text" name="telenot-chats[{{ chat_row }}][id]" value="{{ chat.id }}" placeholder="{{ entry_chat_id }}" class="form-control" />
+						</td>
+						<td class="text-left" >
+						<input type="text" name="telenot-chats[{{ chat_row }}][name]" value="{{ chat.name }}" placeholder="{{ entry_chat_name }}" class="form-control" />
+						</td>
+						<td class="text-left">
+						<button type="button" onclick="$('#chat_row{{ chat_row }}, .tooltip').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+						</td>
+					</tr>
+					{% set chat_row = chat_row + 1 %}
+					{% endfor %}
+					{% endif %}
+				</tbody>
+					<tfoot>
+						<tr>
+						<td colspan="2"></td>
+						<td class="text-left"><button type="button" onclick="addChat();" data-toggle="tooltip" title="{{ button_chat_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+						</tr>
+					</tfoot>
+				</table>
+
 				<div id="result"></div>
 			</div>
+		</div>
 
 		</form>
-			
-		</div>
-		</div>
+
 	</div>
 </div>
 
 <script type="text/javascript">
+var chat_row = {{ chat_row }};
+
+function addChat() {
+	html  = '<tr id="chat_row' + chat_row + '">';
+	html += '  <td class="text-left"><input type="text" name="telenot-chats[' + chat_row + '][id]" value="" placeholder="{{ entry_chat_id }}" class="form-control" /></td>';	
+	html += '  <td class="text-left"><input type="text" name="telenot-chats[' + chat_row + '][name]" value="" placeholder="{{ entry_chat_name }}" class="form-control" /></td>';	
+	
+	html += '  <td class="text-left"><button type="button" onclick="$(\'#chat_row' + chat_row  + ', .tooltip\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+	html += '</tr>';
+	
+	$('#chats tbody').append(html);
+	
+	chat_row++;
+}
 $(document).ready(function() {
-
-
-	$("input[name=telenot-order-change]").change(function(){
-		if ($(this).is(':checked')) {
-			$("input[name=telenot-order-change-notice]").prop('disabled', false);
-		} else {
-			$("input[name=telenot-order-change-notice]").prop('disabled', true);
-			$("input[name=telenot-order-change-notice]").prop('checked', false);
-		}
-	});
 
 	$(".digitOnly").keyup(function() {
 		$(this).val($(this).val().replace(/[^\d,]/g, ''));
