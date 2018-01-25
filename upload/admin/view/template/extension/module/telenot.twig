@@ -58,15 +58,15 @@
 					</label>
 					<div class="col-sm-10">
 						<div class="btn-group-xs btn-group" role="group">
-							<button class="btn btn-default btni" type="button" data-insert="{OrderID}" data-target="input-message-admin">{{ button_orderid }}</button>
-							<button class="btn btn-default btni" type="button" data-insert="{StoreName}" data-target="input-message-admin">{{ button_storename }}</button>
-							<button class="btn btn-default btni" type="button" data-insert="{Total}" data-target="input-message-admin">{{ button_total }}</button>
-							<button class="btn btn-default btni" type="button" data-insert="{FirstName}" data-target="input-message-admin">{{ button_name }}</button>
-							<button class="btn btn-default btni" type="button" data-insert="{LastName}" data-target="input-message-admin">{{ button_lastname }}</button>
-							<button class="btn btn-default btni" type="button" data-insert="{City}" data-target="input-message-admin">{{ button_city }}</button>
-							<button class="btn btn-default btni" type="button" data-insert="{Address}" data-target="input-message-admin">{{ button_address }}</button>
-							<button class="btn btn-default btni" type="button" data-insert="{Phone}" data-target="input-message-admin">{{ button_phone }}</button>
-							<button class="btn btn-default btni" type="button" data-insert="{Comment}" data-target="input-message-admin">{{ button_comment }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{OrderID}" data-target="input-message">{{ button_orderid }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{StoreName}" data-target="input-message">{{ button_storename }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{Total}" data-target="input-message">{{ button_total }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{FirstName}" data-target="input-message">{{ button_name }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{LastName}" data-target="input-message">{{ button_lastname }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{City}" data-target="input-message">{{ button_city }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{Address}" data-target="input-message">{{ button_address }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{Phone}" data-target="input-message">{{ button_phone }}</button>
+							<button class="btn btn-default btni" type="button" data-insert="{Comment}" data-target="input-message">{{ button_comment }}</button>
 						</div>
 						<textarea name="telenot-message" rows="5" placeholder="{{ entry_message }}" id="input-message" class="form-control">{{ data['telenot-message'] }}</textarea>
 					</div>
@@ -155,10 +155,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$(".digitOnly").keyup(function() {
-		$(this).val($(this).val().replace(/[^\d,]/g, ''));
-	});
-
 	$("#checkAPI").click(function() {
 		var api = $('#input_check_api').val();
 
@@ -191,36 +187,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#send").click(function() {
-		if (($('#input-to option:selected').val() == 4) && ($('#input-arbitrary').val().length < 11)) {
-			$('#arbitrary').addClass('has-error');
-		} else {
-			$('#arbitrary').removeClass('has-error');
-			var data = "&telenot-sender="+$('#input-sender').val()+"&telenot-apikey="+$('#input-apikey').val()+"&message="+$('#input-message').val()+"&to="+$('#input-to option:selected').val()+"&arbitrary="+$('#input-arbitrary').val();
-			var btn = $(this);
-			btn.button('loading');
-			$.ajax({
-				type: "POST",
-				url: "index.php?route=extension/module/telenot/massend&user_token={{ user_token }}",
-				cache: false,
-				data: data,
-				success: function(html){
-					try {
-						jsonData = $.parseJSON(html);
-						if (jsonData['error'] != 100) {
-							$('#multi-result').html('<div class="alert alert-danger">'+jsonData['text']+'</div>');
-						} else {
-							$('#multi-result').html('<div class="alert alert-success">'+jsonData['text']+'</div>');
-							$('#balance').html('{{ entry_balance }} '+jsonData['balance']);
-						}
-					} catch (e) {
-						$('#multi-result').html('<div class="alert alert-danger">Error: ('+html+')</div>');
-					}
-					btn.button('reset');
-				},
-			});
-		}
-	});
 	jQuery.fn.extend({
 		insertAtCaret: function(myValue) {
 		return this.each(function(i) {
