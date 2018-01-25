@@ -16,9 +16,9 @@ $_['button_total']             = 'Total';
 $_['tab_help']                 = 'Help';
 $_['tab_settings']             = 'Settings';
 
-$_['entry_chat_id']            = 'Chat ID:';
+$_['entry_chat_id']            = 'Chat ID';
 $_['entry_chat_name']          = 'Name';
-$_['entry_message']            = 'Text:';
+$_['entry_check_api']          = 'Check API and set WebHook';
 $_['entry_enabled']            = 'Enable:';
 $_['entry_message']            = 'Message template:';
 $_['entry_api_key']            = 'API key:';
@@ -27,9 +27,19 @@ $_['text_enable']              = 'enabled';
 $_['text_disable']             = 'disabled';
 $_['text_description']         = 'Telenot (1.0) - Telegram notifications';
 $_['text_module']              = 'Modules';
-$_['text_send_success']        = 'Message sent';
-$_['text_send_error']          = 'Error sending';
 
-$_['help_message']             = 'The message that will get the owner to create a new order. {OrderID} - order id, {StoreName} - store name, {Total} - order price.';
+$_['help_message']             = 'In the message template, you can add an order number ({OrderID}), a total amount ({Total}), etc.';
+$_['help_api']                 = 'Here, enter the token that you gave @BotFather after registering your bot, then click the button on the right. The code will be checked and registered by Webhook for your bot. Details on the Help tab';
 $_['help_registration']        = 'Register bot on @BotFather.';
+$_['help_registration']        = '<p>To start the module, it is necessary to register the bot (which will send notifications) and get its unique identifier, which is also a token. To do this, Telegram has a special bot - <a href="https://telegram.me/botfather" target="_blank">@BotFather </a>.</p>
+
+<p> Find @BotFather in Telegram and write to it <strong>/start</strong>, it will return a list of all available commands in response.</p>
+<p> Write a <strong>/newbot</strong> to the bot, in response, it will ask you to enter the name of your future bot. You can specify any bot name, such as the name of your store or abracadabra, remember that the name must end with a "bot", for example, superpuper_bot. If the name is not used and BotFather is satisfied with everything, the bot token will come back. The token looks like this: <i> 530903176: AAHJQu11Ehq5X0buh069GVFWlHmAohWA12M</i> </p>
+
+<p> The received token must be copied to the module settings in the <strong> API key </strong> field and click the button on the right <button class="btn btn-default" type="button"> <i class="fa fa-save"> </i> </ button>. After clicking, the token will be checked and the webhook of the bot registered in Telegram. </P>
+<p> Webhook is needed in order for the bot to be able to communicate the identifier of your chat with your bot for its work to have SSL </p>
+<p> If everything went well, after you click on <button class="btn btn-default" type="button"><i class="fa fa-save"></i></button> the name of your bot and the webhook address will be indicated.</p>
+<p> Since the bot can not start the dialog first, you need to find your bot by name in Telegram and write to it <strong> /start </strong> In response, it will write your chat ID with it, which you also need to specify in the module settings by clicking the <button type="button" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button> button.</p>
+<p> After pressing the <button type="button" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button> button, two fields will appear, the first one is the chat ID that your bot told you, and in the second you can specify a name or position the person that owns this Chat ID. If you need to send messages to several people, they also need to find your bot in Telegram and write to it <strong> /start </strong>, it will give out their Chat ID, which you will enter (by pressing <button type="button" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>) in the module settings.</p>
+<p> Now it\'s time to enable notifications, create a template for the message to be sent and test it. </p>';
 ?>
