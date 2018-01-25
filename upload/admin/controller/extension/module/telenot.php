@@ -89,7 +89,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['text_disable'] = $this->language->get('text_disable');
 
 		$this->data['help_message'] = $this->language->get('help_message');
-		$this->data['help_registration'] = $this->language->get('help_sure');
+		//$this->data['help_registration'] = $this->language->get('help_sure');
 
 		$this->data['entry_text'] = $this->language->get('entry_text');
 
@@ -167,7 +167,6 @@ class ControllerExtensionModuleTelenot extends Controller {
 	public function check_api() {
 
 		$api_key = trim($this->request->post['telenot-apikey']);
-		//$api_key = '530903176:AAHJQu11Ehq5X0buh069GVFWlHmAohWA12M';
 
 		$answer = file_get_contents('https://api.telegram.org/bot' . $api_key . '/getMe');
 
@@ -205,9 +204,8 @@ class ControllerExtensionModuleTelenot extends Controller {
 			$json['text'] = 'error';
 		}
 
-		//echo json_encode($json);
 		$this->response->setOutput(json_encode($json));
-		/*curl -X POST -d @data.json -H "Content-Type: application/json" "https://api.telegram.org/botYOURBOTTOKEN/setWebhook"*/
+
 	}
 
 	private function isJSON($string) {
