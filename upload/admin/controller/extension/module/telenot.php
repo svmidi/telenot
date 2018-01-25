@@ -20,7 +20,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 				$this->error['warning'] = $this->language->get('error_permission');
 				$this->session->data['error'] = 'You do not have permissions to edit this module!';
 			} else {
-				if ( is_array($this->request->post['input-chat']) ) {
+				if ( (isset($this->request->post['input-chat'])) && (is_array($this->request->post['input-chat'])) ) {
 					$chats = json_encode($this->request->post['input-chat']);
 					$this->request->post['input-chat'] = $chats;
 				}
@@ -77,8 +77,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['tab_help'] = $this->language->get('tab_help');
 		$this->data['tab_settings'] = $this->language->get('tab_settings');
 
-		$this->data['entry_chat_id'] = $this->language->get('entry_chat_id');
-		$this->data['entry_chat_name'] = $this->language->get('entry_chat_name');
+		$this->data['entry_chats'] = $this->language->get('entry_chats');
 		$this->data['entry_bot'] = $this->language->get('entry_bot');
 		$this->data['entry_enabled'] = $this->language->get('entry_enabled');
 		$this->data['entry_message'] = $this->language->get('entry_message');
@@ -112,6 +111,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->load->model('setting/event');
 
 		$this->model_setting_event->addEvent('telenot', 'catalog/controller/checkout/success/before', 'extension/module/telenot/onCheckout');
+		$this->model_setting_event->addEvent('telenot', 'catalog/model/checkout/order/addOrderHistory/after', 'extension/module/telenot/onHistoryChange');
 
 		$this->load->model('setting/setting');
 		$basic=array(
@@ -162,6 +162,61 @@ class ControllerExtensionModuleTelenot extends Controller {
 		}
 
 		$this->response->setOutput(json_encode($resp));
+	}
+
+	public function check_api() {
+
+		$api_key = trim($this->request->post['telenot-apikey']);
+		//$api_key = '530903176:AAHJQu11Ehq5X0buh069GVFWlHmAohWA12M';
+
+		$answer = file_get_contents('https://api.telegram.org/bot' . $api_key . '/getMe');
+
+		$telegram = $this->isJSON($answer);
+
+		if ( ($telegram) && ($telegram['ok']) ) {
+			$json['error'] = 0;
+
+			$url = str_replace("/admin", "", $this->url->link('api/telenotbot', 'api_token=0', 'SSL'));
+
+			$options = array(
+				'http' => array(
+					'method'  => 'POST',
+					'content' => '{"url": "'.$url.'"}',
+					'header' => "Content-Type: application/json\r\n" .
+					"Accept: application/json\r\n"
+				)
+			);
+
+			$context  = stream_context_create( $options );
+			$result = file_get_contents( 'https://api.telegram.org/bot' . $api_key . '/setWebhook', false, $context );
+			$response = json_decode($result, true);
+
+			if ( (isset($response['ok'])) && ($response['result']) ) {
+
+				$json['text'] = $telegram['result']['username'] . ' ' . $response['description'] . ' ' . $url;
+
+			} else {
+				$json['error'] = 2;
+				$json['text'] = 'WebHook error';
+			}
+
+		} else {
+			$json['error'] = 1;
+			$json['text'] = 'error';
+		}
+
+		//echo json_encode($json);
+		$this->response->setOutput(json_encode($json));
+		/*curl -X POST -d @data.json -H "Content-Type: application/json" "https://api.telegram.org/botYOURBOTTOKEN/setWebhook"*/
+	}
+
+	private function isJSON($string) {
+
+		if (is_string($string) && (is_object(json_decode($string)) || is_array(json_decode($string)))) {
+			return json_decode($string, true);
+		} else {
+    		return  false;
+		}
 	}
 }
 ?>
