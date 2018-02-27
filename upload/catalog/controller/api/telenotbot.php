@@ -3,7 +3,7 @@ class ControllerApiTelenotbot extends Controller {
 	public function index() {
 
 		$this->load->model('setting/setting');
-		$setting = $this->model_setting_setting->getSetting('telenot');
+		$setting = $this->model_setting_setting->getSetting('module_telenot');
 		$output = json_decode(file_get_contents('php://input'), TRUE);
 		$chat_id = $output['message']['chat']['id'];
 		$message = $output['message']['text'];

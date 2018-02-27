@@ -19,7 +19,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$order_info = $this->model_checkout_order->getOrder($order_id);
 
 		$this->load->model('setting/setting');
-		$setting = $this->model_setting_setting->getSetting('telenot');
+		$setting = $this->model_setting_setting->getSetting('module_telenot');
 
 		if (isset($setting) && ($setting['module_telenot_status']) && (!empty($setting['module_telenot_apikey']))) {
 			$total = $this->currency->convert($order_info['total'], $order_info['currency_code'], $order_info['currency_code']);

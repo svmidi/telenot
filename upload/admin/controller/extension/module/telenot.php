@@ -24,7 +24,8 @@ class ControllerExtensionModuleTelenot extends Controller {
 					$chats = json_encode($this->request->post['input-chat']);
 					$this->request->post['input-chat'] = $chats;
 				}
-				$this->model_setting_setting->editSetting('telenot', $this->request->post, 0);
+
+				$this->model_setting_setting->editSetting('module_telenot', $this->request->post, 0);
 				$this->session->data['success'] = $this->language->get('text_success');
 			}
 			$this->response->redirect(HTTP_SERVER.'index.php?route=extension/module/telenot&store_id='.$this->request->get['store_id'] . '&user_token=' . $this->session->data['user_token']);
@@ -50,7 +51,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 		);
 		$this->data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_module'),
-			'href' => $this->url->link('extension/extension', 'user_token=' . $this->session->data['user_token'], 'SSL'),
+			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'], 'SSL'),
 		);
 		$this->data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
@@ -89,7 +90,6 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['text_disable'] = $this->language->get('text_disable');
 
 		$this->data['help_message'] = $this->language->get('help_message');
-		//$this->data['help_registration'] = $this->language->get('help_sure');
 
 		$this->data['entry_text'] = $this->language->get('entry_text');
 
@@ -97,13 +97,14 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['action'] = $this->url->link('extension/module/telenot', 'user_token=' . $this->session->data['user_token'], 'SSL');
 		$this->data['cancel'] = $this->url->link('extension/extension', 'user_token=' . $this->session->data['user_token'], 'SSL');
 
-		$this->data['data'] = $this->model_setting_setting->getSetting('telenot');
+		$this->data['data'] = $this->model_setting_setting->getSetting('module_telenot');
 
 		$this->data['user_token'] = $this->session->data['user_token'];
 
 		$this->data['header'] = $this->load->controller('common/header');
 		$this->data['column_left'] = $this->load->controller('common/column_left');
 		$this->data['footer'] = $this->load->controller('common/footer');
+
 		$this->response->setOutput($this->load->view('extension/module/telenot', $this->data));
 	}
 
@@ -119,16 +120,16 @@ class ControllerExtensionModuleTelenot extends Controller {
 		'module_telenot_apikey' => '',
 		'module_telenot_message' => 'New order #{OrderID} at the store "{StoreName}". Total {Total}',
 		'module_telenot_status' => 0);
-		$this->model_setting_setting->editSetting('telenot', $basic, 0);
+		$this->model_setting_setting->editSetting('module_telenot', $basic, 0);
 	}
 
 	public function uninstall() {
 		$this->load->model('setting/setting');
 
-		$settings = $this->model_setting_setting->getSetting('telenot');
+		$settings = $this->model_setting_setting->getSetting('module_telenot');
 		@file_get_contents( 'https://api.telegram.org/bot' . $settings['module_telenot_apikey'] . '/deleteWebhook' );
 
-		$this->model_setting_setting->deleteSetting('telenot', 0);
+		$this->model_setting_setting->deleteSetting('module_telenot', 0);
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEvent('telenot');
 
@@ -170,7 +171,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 
 	public function check_api() {
 
-		$api_key = trim($this->request->post['telenot_apikey']);
+		$api_key = trim($this->request->post['module_telenot_apikey']);
 
 		$answer = @file_get_contents('https://api.telegram.org/bot' . $api_key . '/getMe');
 
