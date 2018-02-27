@@ -115,19 +115,23 @@ class ControllerExtensionModuleTelenot extends Controller {
 
 		$this->load->model('setting/setting');
 		$basic=array(
-		'telenot-chats' => '',
-		'telenot-apikey' => '',
-		'telenot-message' => 'New order #{OrderID} at the store "{StoreName}". Total {Total}',
-		'telenot-enabled' => 0);
+		'module_telenot_chats' => '',
+		'module_telenot_apikey' => '',
+		'module_telenot_message' => 'New order #{OrderID} at the store "{StoreName}". Total {Total}',
+		'module_telenot_status' => 0);
 		$this->model_setting_setting->editSetting('telenot', $basic, 0);
 	}
 
 	public function uninstall() {
 		$this->load->model('setting/setting');
 
-		$this->model_setting_setting->deleteSetting('telenot_module',0);
+		$settings = $this->model_setting_setting->getSetting('telenot');
+		@file_get_contents( 'https://api.telegram.org/bot' . $settings['module_telenot_apikey'] . '/deleteWebhook' );
+
+		$this->model_setting_setting->deleteSetting('telenot', 0);
 		$this->load->model('setting/event');
 		$this->model_setting_event->deleteEvent('telenot');
+
 	}
 
 	public function send() {
@@ -166,10 +170,9 @@ class ControllerExtensionModuleTelenot extends Controller {
 
 	public function check_api() {
 
-		$api_key = trim($this->request->post['telenot-apikey']);
+		$api_key = trim($this->request->post['telenot_apikey']);
 
 		$answer = @file_get_contents('https://api.telegram.org/bot' . $api_key . '/getMe');
-		//echo "as".$answer;
 
 		$telegram = $this->isJSON($answer);
 
