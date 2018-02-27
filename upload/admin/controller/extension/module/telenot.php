@@ -168,11 +168,12 @@ class ControllerExtensionModuleTelenot extends Controller {
 
 		$api_key = trim($this->request->post['telenot-apikey']);
 
-		$answer = file_get_contents('https://api.telegram.org/bot' . $api_key . '/getMe');
+		$answer = @file_get_contents('https://api.telegram.org/bot' . $api_key . '/getMe');
+		//echo "as".$answer;
 
 		$telegram = $this->isJSON($answer);
 
-		if ( ($telegram) && ($telegram['ok']) ) {
+		if ( isset($telegram['ok']) ) {
 			$json['error'] = 0;
 
 			$url = str_replace("/admin", "", $this->url->link('api/telenotbot', 'api_token=0', 'SSL'));
@@ -210,7 +211,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 
 	private function isJSON($string) {
 
-		if (is_string($string) && (is_object(json_decode($string)) || is_array(json_decode($string)))) {
+		if ($string) {
 			return json_decode($string, true);
 		} else {
     		return  false;

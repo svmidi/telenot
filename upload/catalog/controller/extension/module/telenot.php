@@ -30,7 +30,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 				$message = str_replace($original, $replace, $setting['telenot-message']);
 
 				foreach ($setting['telenot-chats'] as $chat) {
-					file_get_contents('https://api.telegram.org/bot' . $setting['telenot-apikey'] . '/sendMessage?chat_id=' . $chat['id'] . '&text=' . urlencode($message));
+					@file_get_contents('https://api.telegram.org/bot' . $setting['telenot-apikey'] . '/sendMessage?chat_id=' . $chat['id'] . '&text=' . urlencode($message));
 				}
 			}
 		}
