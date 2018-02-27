@@ -22,12 +22,14 @@ $_['entry_check_api']          = 'Check API and set WebHook';
 $_['entry_enabled']            = 'Enable:';
 $_['entry_message']            = 'Message template:';
 $_['entry_api_key']            = 'API key:';
+$_['entry_botname']            = 'Bot name:';
 
 $_['text_enable']              = 'enabled';
 $_['text_disable']             = 'disabled';
 $_['text_description']         = 'Telenot (1.0) - Telegram notifications';
 $_['text_module']              = 'Modules';
 
+$_['help_botname']             = 'Here you will see the name of your bot after entering the token';
 $_['help_message']             = 'In the message template, you can add an order number ({OrderID}), a total amount ({Total}), etc.';
 $_['help_api']                 = 'Here, enter the token that you gave @BotFather after registering your bot, then click the button on the right. The code will be checked and registered by Webhook for your bot. Details on the Help tab';
 $_['help_registration']        = 'Register bot on @BotFather.';

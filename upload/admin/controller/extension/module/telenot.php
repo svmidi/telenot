@@ -118,6 +118,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$basic=array(
 		'module_telenot_chats' => '',
 		'module_telenot_apikey' => '',
+		'module_telenot_botname' => '',
 		'module_telenot_message' => 'New order #{OrderID} at the store "{StoreName}". Total {Total}',
 		'module_telenot_status' => 0);
 		$this->model_setting_setting->editSetting('module_telenot', $basic, 0);
@@ -198,6 +199,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 			if ( (isset($response['ok'])) && ($response['result']) ) {
 
 				$json['text'] = $telegram['result']['username'] . ' ' . $response['description'] . ' ' . $url;
+				$json['bot_name'] = $telegram['result']['first_name'];
 
 			} else {
 				$json['error'] = 2;
