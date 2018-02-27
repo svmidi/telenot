@@ -15,13 +15,13 @@ class ControllerApiTelenotbot extends Controller {
 				$answer = '/help - commands
 				/start - start';
 
-				file_get_contents('https://api.telegram.org/bot' . $setting['telenot-apikey'] . '/sendMessage?chat_id=' . $chat_id . '&text=' . urlencode($answer));
+				file_get_contents('https://api.telegram.org/bot' . $setting['module_telenot_apikey'] . '/sendMessage?chat_id=' . $chat_id . '&text=' . urlencode($answer));
 
 			break;
 
 			case '/start':
 
-				file_get_contents('https://api.telegram.org/bot' . $setting['telenot-apikey'] . '/sendMessage?chat_id=' . $chat_id . '&text=' . urlencode("Chat ID: ".$chat_id));
+				file_get_contents('https://api.telegram.org/bot' . $setting['module_telenot_apikey'] . '/sendMessage?chat_id=' . $chat_id . '&text=' . urlencode("Chat ID: ".$chat_id));
 
 			break;
 

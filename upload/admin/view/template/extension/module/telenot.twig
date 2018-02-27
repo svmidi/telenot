@@ -34,15 +34,15 @@
 		<div class="tab-content">
 
 			<div class="tab-pane fade" id="tab-help">
-				HELP ME
+				{{ help_registration }}
 			</div>
 
 			<div class="tab-pane fade active in" id="tab-settings">
 				<div class="form-group">
 					<label class="col-sm-2 control-label" for="input-enabled">{{ entry_enabled }}</label>
 					<div class="col-sm-10">
-						<select name="telenot-enabled" class="form-control">
-						{% if data['telenot-enabled'] == 0 %}
+						<select name="module_telenot_status" class="form-control">
+						{% if data['module_telenot_status'] == 0 %}
 							<option value="1">{{ text_enable }}</option>
 							<option value="0" selected="selected">{{ text_disable }}</option>
 						{% else %}
@@ -68,12 +68,13 @@
 							<button class="btn btn-default btni" type="button" data-insert="{Phone}" data-target="input-message">{{ button_phone }}</button>
 							<button class="btn btn-default btni" type="button" data-insert="{Comment}" data-target="input-message">{{ button_comment }}</button>
 						</div>
-						<textarea name="telenot-message" rows="5" placeholder="{{ entry_message }}" id="input-message" class="form-control">{{ data['telenot-message'] }}</textarea>
+						<textarea name="module_telenot_message" rows="5" placeholder="{{ entry_message }}" id="input-message" class="form-control">{{ data['module_telenot_message'] }}</textarea>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-2 control-label" for="input-apikey">{{ entry_api_key }}</label>
+					<label class="col-sm-2 control-label" for="input-apikey">
+						<span data-toggle="tooltip" data-original-title="{{ help_api }}">{{ entry_api_key }}</span></label>
 					<div class="col-sm-10">
 						<div class="input-group">
 							<input type="text" class="form-control" id="input_check_api" placeholder="{{ entry_api_key }}">
@@ -81,7 +82,7 @@
 								<button class="btn btn-default" type="button" id="checkAPI" title="{{ entry_check_api }}"><i class="fa fa-save"></i></button>
 							</span>
 						</div>
-						<input name="telenot-apikey" type="text" readonly="readonly" placeholder="{{ entry_api_key }}" id="input-apikey" class="form-control" value="{{ data['telenot-apikey'] }}">
+						<input name="module_telenot_apikey" type="text" readonly="readonly" placeholder="{{ entry_api_key }}" id="input-apikey" class="form-control" value="{{ data['module_telenot_apikey'] }}">
 					</div>
 				</div>
 
@@ -95,14 +96,14 @@
 				</thead>
 				<tbody>
 					{% set chat_row = 0 %}
-					{% if data['telenot-chats'] %}
-					{% for chat in data['telenot-chats'] %}
+					{% if data['module_telenot_chats'] %}
+					{% for chat in data['module_telenot_chats'] %}
 					<tr id="chat_row{{ chat_row }}">
 						<td class="text-left">
-						<input type="text" name="telenot-chats[{{ chat_row }}][id]" value="{{ chat.id }}" placeholder="{{ entry_chat_id }}" class="form-control" />
+						<input type="text" name="module_telenot_chats[{{ chat_row }}][id]" value="{{ chat.id }}" placeholder="{{ entry_chat_id }}" class="form-control" />
 						</td>
 						<td class="text-left" >
-						<input type="text" name="telenot-chats[{{ chat_row }}][name]" value="{{ chat.name }}" placeholder="{{ entry_chat_name }}" class="form-control" />
+						<input type="text" name="module_telenot_chats[{{ chat_row }}][name]" value="{{ chat.name }}" placeholder="{{ entry_chat_name }}" class="form-control" />
 						</td>
 						<td class="text-left">
 						<button type="button" onclick="$('#chat_row{{ chat_row }}, .tooltip').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
@@ -134,8 +135,8 @@ var chat_row = {{ chat_row }};
 
 function addChat() {
 	html  = '<tr id="chat_row' + chat_row + '">';
-	html += '  <td class="text-left"><input type="text" name="telenot-chats[' + chat_row + '][id]" value="" placeholder="{{ entry_chat_id }}" class="form-control" /></td>';	
-	html += '  <td class="text-left"><input type="text" name="telenot-chats[' + chat_row + '][name]" value="" placeholder="{{ entry_chat_name }}" class="form-control" /></td>';	
+	html += '  <td class="text-left"><input type="text" name="module_telenot_chats[' + chat_row + '][id]" value="" placeholder="{{ entry_chat_id }}" class="form-control" /></td>';	
+	html += '  <td class="text-left"><input type="text" name="module_telenot_chats[' + chat_row + '][name]" value="" placeholder="{{ entry_chat_name }}" class="form-control" /></td>';	
 	
 	html += '  <td class="text-left"><button type="button" onclick="$(\'#chat_row' + chat_row  + ', .tooltip\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 	html += '</tr>';
@@ -146,22 +147,13 @@ function addChat() {
 }
 $(document).ready(function() {
 
-	$("input[name=telenot-order-change]").change(function(){
-		if ($(this).is(':checked')) {
-			$("input[name=telenot-order-change-notice]").prop('disabled', false);
-		} else {
-			$("input[name=telenot-order-change-notice]").prop('disabled', true);
-			$("input[name=telenot-order-change-notice]").prop('checked', false);
-		}
-	});
-
 	$("#checkAPI").click(function() {
 		var api = $('#input_check_api').val();
 
 		if (api.length > 44) {
 
 			$('#arbitrary').removeClass('has-error');
-			var data = "&telenot-apikey=" + api;
+			var data = "&module_telenot_apikey=" + api;
 			var btn = $(this);
 			btn.button('loading');
 			$.ajax({
