@@ -95,7 +95,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 
 		$this->data['error_warning'] = '';
 		$this->data['action'] = $this->url->link('extension/module/telenot', 'user_token=' . $this->session->data['user_token'], 'SSL');
-		$this->data['cancel'] = $this->url->link('extension/extension', 'user_token=' . $this->session->data['user_token'], 'SSL');
+		$this->data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'], 'SSL');
 
 		$this->data['data'] = $this->model_setting_setting->getSetting('module_telenot');
 
