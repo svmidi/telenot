@@ -112,7 +112,6 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->load->model('setting/event');
 
 		$this->model_setting_event->addEvent('telenot', 'catalog/controller/checkout/success/before', 'extension/module/telenot/onCheckout');
-		$this->model_setting_event->addEvent('telenot', 'catalog/model/checkout/order/addOrderHistory/after', 'extension/module/telenot/onHistoryChange');
 
 		$this->load->model('setting/setting');
 		$basic=array(
@@ -132,7 +131,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 
 		$this->model_setting_setting->deleteSetting('module_telenot', 0);
 		$this->load->model('setting/event');
-		$this->model_setting_event->deleteEvent('telenot');
+		$this->model_setting_event->deleteEventByCode('telenot');
 
 	}
 
