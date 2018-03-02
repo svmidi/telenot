@@ -62,5 +62,5 @@ The token looks like this: <i>530903176: AAHJQu11Ehq5X0buh069GVFWlHmAohWA12M</i>
 <p>After pressing the <button type="button" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>, two fields appear in the the first one is the Chat ID that your bot told you, and in the second you can specify the name or position of the person to whom this Chat ID belongs. If you need to send messages to several people, they also need to find your bot in Telegram and write to it <strong>/start</strong>, it will return their Chat ID, which you will enter (by pressing <button type="button" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>) in the module settings.</p>
 </li>
 </ol>
-<p> Now it's time to enable notifications, create a template for the message to be sent and test it.</p>';
+<p> Now it\'s time to enable notifications, create a template for the message to be sent and test it.</p>';
 ?>
