@@ -74,6 +74,9 @@ class ControllerModuleTelenot extends Controller {
 		$this->data['button_comment'] = $this->language->get('button_comment');
 		$this->data['button_status'] = $this->language->get('button_status');
 		$this->data['button_total'] = $this->language->get('button_total');
+		$this->data['button_add_chat'] = $this->language->get('button_add_chat');
+		$this->data['button_remove'] = $this->language->get('button_remove');
+		$this->data['button_check_api'] = $this->language->get('button_check_api');
 
 		$this->data['tab_help'] = $this->language->get('tab_help');
 		$this->data['tab_settings'] = $this->language->get('tab_settings');
