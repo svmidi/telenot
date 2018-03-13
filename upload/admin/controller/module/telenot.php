@@ -74,9 +74,8 @@ class ControllerModuleTelenot extends Controller {
 		$this->data['button_comment'] = $this->language->get('button_comment');
 		$this->data['button_status'] = $this->language->get('button_status');
 		$this->data['button_total'] = $this->language->get('button_total');
-		$this->data['button_add_chat'] = $this->language->get('button_add_chat');
+		$this->data['button_chat_add'] = $this->language->get('button_chat_add');
 		$this->data['button_remove'] = $this->language->get('button_remove');
-		$this->data['button_check_api'] = $this->language->get('button_check_api');
 
 		$this->data['tab_help'] = $this->language->get('tab_help');
 		$this->data['tab_settings'] = $this->language->get('tab_settings');
@@ -89,6 +88,7 @@ class ControllerModuleTelenot extends Controller {
 		$this->data['entry_chat_id'] = $this->language->get('entry_chat_id');
 		$this->data['entry_chat_name'] = $this->language->get('entry_chat_name');
 		$this->data['entry_text'] = $this->language->get('entry_text');
+		$this->data['entry_check_api'] = $this->language->get('entry_check_api');
 
 		$this->data['text_description'] = $this->language->get('text_description');
 		$this->data['text_new_order'] = $this->language->get('text_new_order');

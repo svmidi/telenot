@@ -12,6 +12,7 @@ $_['button_comment']           = 'Комментарий';
 $_['button_storename']         = 'Название магазина';
 $_['button_orderid']           = '№ заказа';
 $_['button_total']             = 'Итого';
+$_['button_chat_add']          = 'Добавить чат для отправки уведомлений'
 
 $_['tab_help']                 = 'Помощь';
 $_['tab_settings']             = 'Настройки';
