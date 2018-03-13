@@ -79,10 +79,13 @@ class ControllerModuleTelenot extends Controller {
 		$this->data['tab_settings'] = $this->language->get('tab_settings');
 
 		$this->data['entry_chats'] = $this->language->get('entry_chats');
-		$this->data['entry_bot'] = $this->language->get('entry_bot');
+		$this->data['entry_botname'] = $this->language->get('entry_botname');
 		$this->data['entry_enabled'] = $this->language->get('entry_enabled');
 		$this->data['entry_message'] = $this->language->get('entry_message');
 		$this->data['entry_api_key'] = $this->language->get('entry_api_key');
+		$this->data['entry_chat_id'] = $this->language->get('entry_chat_id');
+		$this->data['entry_chat_name'] = $this->language->get('entry_chat_name');
+		$this->data['entry_text'] = $this->language->get('entry_text');
 
 		$this->data['text_description'] = $this->language->get('text_description');
 		$this->data['text_new_order'] = $this->language->get('text_new_order');
@@ -90,8 +93,10 @@ class ControllerModuleTelenot extends Controller {
 		$this->data['text_disable'] = $this->language->get('text_disable');
 
 		$this->data['help_message'] = $this->language->get('help_message');
+		$this->data['help_botname'] = $this->language->get('help_botname');
+		$this->data['help_api'] = $this->language->get('help_api');
+		$this->data['help_registration'] = $this->language->get('help_registration');
 
-		$this->data['entry_text'] = $this->language->get('entry_text');
 
 		$this->data['error_warning'] = '';
 		$this->data['action'] = $this->url->link('module/telenot', 'token=' . $this->session->data['token'], 'SSL');

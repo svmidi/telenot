@@ -8,18 +8,18 @@
 			</div>
 			<h1><?php echo $heading_title; ?></h1>
 			<ul class="breadcrumb">
-			<?php for breadcrumb in breadcrumbs  ?>
-			<li><a href="<?php echo $breadcrumb.href; ?>"><?php echo $breadcrumb.text; ?></a></li>
-			<?php endfor  ?>
+			<?php foreach ($breadcrumbs as $breadcrumb) { ?>
+			<li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+			<?php } ?>
 			</ul>
 		</div>
 	</div>
 <div class="container-fluid">
-	<?php if error_warning  ?>
+	<?php if ($error_warning) { ?>
 	<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 	</div>
-	<?php endif  ?>
+	<?php } ?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title"><i class="fa fa-pencil"></i> <?php echo $text_description; ?></h3>
@@ -42,13 +42,13 @@
 					<label class="col-sm-2 control-label" for="input-enabled"><?php echo $entry_enabled; ?></label>
 					<div class="col-sm-10">
 						<select name="module_telenot_status" class="form-control">
-						<?php if data['module_telenot_status'] == 0  ?>
+						<?php if (data['module_telenot_status'] == 0) { ?>
 							<option value="1"><?php echo $text_enable; ?></option>
 							<option value="0" selected="selected"><?php echo $text_disable; ?></option>
-						<?php else  ?>
+						<?php } else { ?>
 							<option value="1" selected="selected"><?php echo $text_enable; ?></option>
 							<option value="0"><?php echo $text_disable; ?></option>
-						<?php endif  ?>
+						<?php } ?>
 						</select>
 					</div>
 				</div>
@@ -103,23 +103,23 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php set chat_row = 0  ?>
-					<?php if data['module_telenot_chats']  ?>
-					<?php for chat in data['module_telenot_chats']  ?>
+					<?php $chat_row = 0; ?>
+					<?php if ($data['module_telenot_chats']) { ?>
+					<?php foreach ($data['module_telenot_chats'] AS $chat) { ?>
 					<tr id="chat_row<?php echo $chat_row; ?>">
 						<td class="text-left">
-						<input type="text" name="module_telenot_chats[<?php echo $chat_row; ?>][id]" value="<?php echo $chat.id; ?>" placeholder="<?php echo $entry_chat_id; ?>" class="form-control" />
+						<input type="text" name="module_telenot_chats[<?php echo $chat_row; ?>][id]" value="<?php echo $chat['id']; ?>" placeholder="<?php echo $entry_chat_id; ?>" class="form-control" />
 						</td>
 						<td class="text-left" >
-						<input type="text" name="module_telenot_chats[<?php echo $chat_row; ?>][name]" value="<?php echo $chat.name; ?>" placeholder="<?php echo $entry_chat_name; ?>" class="form-control" />
+						<input type="text" name="module_telenot_chats[<?php echo $chat_row; ?>][name]" value="<?php echo $chat['name']; ?>" placeholder="<?php echo $entry_chat_name; ?>" class="form-control" />
 						</td>
 						<td class="text-left">
 						<button type="button" onclick="$('#chat_row<?php echo $chat_row; ?>, .tooltip').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
 						</td>
 					</tr>
-					<?php set chat_row = chat_row + 1  ?>
-					<?php endfor  ?>
-					<?php endif  ?>
+					<?php $chat_row = $chat_row + 1; ?>
+					<?php } ?>
+					<?php } ?>
 				</tbody>
 					<tfoot>
 						<tr>
