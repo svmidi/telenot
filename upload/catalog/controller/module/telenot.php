@@ -1,5 +1,5 @@
 <?php
-class ControllerExtensionModuleTelenot extends Controller {
+class ControllerModuleTelenot extends Controller {
 
 	public function onHistoryChange($order = 0) {
 
