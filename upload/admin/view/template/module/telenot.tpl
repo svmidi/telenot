@@ -42,7 +42,7 @@
 					<label class="col-sm-2 control-label" for="input-enabled"><?php echo $entry_enabled; ?></label>
 					<div class="col-sm-10">
 						<select name="module_telenot_status" class="form-control">
-						<?php if (data['module_telenot_status'] == 0) { ?>
+						<?php if ($data['module_telenot_status'] == 0) { ?>
 							<option value="1"><?php echo $text_enable; ?></option>
 							<option value="0" selected="selected"><?php echo $text_disable; ?></option>
 						<?php } else { ?>
