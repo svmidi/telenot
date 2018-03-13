@@ -28,7 +28,7 @@ class ControllerModuleTelenot extends Controller {
 				$this->model_setting_setting->editSetting('module_telenot', $this->request->post, 0);
 				$this->session->data['success'] = $this->language->get('text_success');
 			}
-			$this->response->redirect(HTTP_SERVER.'index.php?route=module/telenot&store_id='.$this->request->get['store_id'] . '&user_token=' . $this->session->data['user_token']);
+			$this->response->redirect(HTTP_SERVER.'index.php?route=module/telenot&store_id='.$this->request->get['store_id'] . '&token=' . $this->session->data['token']);
 		}
 
 		if (isset($this->session->data['success'])) {
@@ -47,15 +47,15 @@ class ControllerModuleTelenot extends Controller {
 		$this->data['breadcrumbs']   = array();
 		$this->data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], 'SSL'),
+			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL'),
 		);
 		$this->data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_module'),
-			'href' => $this->url->link('extension/module', 'user_token=' . $this->session->data['user_token'], 'SSL'),
+			'href' => $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'),
 		);
 		$this->data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('module/telenot', 'user_token=' . $this->session->data['user_token'], 'SSL'),
+			'href' => $this->url->link('module/telenot', 'token=' . $this->session->data['token'], 'SSL'),
 		);
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -94,18 +94,18 @@ class ControllerModuleTelenot extends Controller {
 		$this->data['entry_text'] = $this->language->get('entry_text');
 
 		$this->data['error_warning'] = '';
-		$this->data['action'] = $this->url->link('module/telenot', 'user_token=' . $this->session->data['user_token'], 'SSL');
-		$this->data['cancel'] = $this->url->link('extension/module', 'user_token=' . $this->session->data['user_token'], 'SSL');
+		$this->data['action'] = $this->url->link('module/telenot', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
 
 		$this->data['data'] = $this->model_setting_setting->getSetting('module_telenot');
 
-		$this->data['user_token'] = $this->session->data['user_token'];
+		$this->data['token'] = $this->session->data['token'];
 
 		$this->data['header'] = $this->load->controller('common/header');
 		$this->data['column_left'] = $this->load->controller('common/column_left');
 		$this->data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('module/telenot', $this->data));
+		$this->response->setOutput($this->load->view('module/telenot.tpl', $this->data));
 	}
 
 	public function install() {
