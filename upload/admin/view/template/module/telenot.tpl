@@ -166,7 +166,7 @@ $(document).ready(function() {
 			btn.button('loading');
 			$.ajax({
 				type: "POST",
-				url: "index.php?route=extension/module/telenot/check_api&store_id=0&user_token=<?php echo $user_token; ?>",
+				url: "index.php?route=module/telenot/check_api&store_id=0&token=<?php echo $token; ?>",
 				cache: false,
 				data: data,
 				success: function(html){
