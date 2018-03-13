@@ -109,7 +109,7 @@ class ControllerModuleTelenot extends Controller {
 	}
 
 	public function install() {
-		$this->load->model('setting/event');
+		$this->load->model('extension/event');
 
 		if (strcmp(substr(VERSION, 0, 7), "2.1.0.2") <= 0) {
 			$this->model_extension_event->addEvent('telenot', 'post.order.history.add', 'module/telenot/onHistoryChange');
