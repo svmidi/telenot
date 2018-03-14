@@ -142,8 +142,8 @@ class ControllerModuleTelenot extends Controller {
 		@file_get_contents( 'https://api.telegram.org/bot' . $settings['module_telenot_apikey'] . '/deleteWebhook' );
 
 		$this->model_setting_setting->deleteSetting('module_telenot', 0);
-		$this->load->model('setting/event');
-		$this->model_setting_event->deleteEventByCode('telenot');
+		$this->load->model('extension/event');
+		$this->model_extension_event->deleteEvent('telenot');
 
 	}
 
