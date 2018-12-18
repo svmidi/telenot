@@ -1,10 +1,10 @@
 <?php
-class ControllerExtensionModuleTelenot extends Controller {
+class ControllerModuleTelenot extends Controller {
 	private $data = array();
 
 	public function index() {
 
-		$this->load->language('extension/module/telenot');
+		$this->load->language('module/telenot');
 
 		$this->load->model('localisation/language');
 		$this->load->model('setting/setting');
@@ -16,7 +16,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 		}
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
-			if (!$this->user->hasPermission('modify', 'extension/module/telenot')) {
+			if (!$this->user->hasPermission('modify', 'module/telenot')) {
 				$this->error['warning'] = $this->language->get('error_permission');
 				$this->session->data['error'] = 'You do not have permissions to edit this module!';
 			} else {
@@ -28,7 +28,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 				$this->model_setting_setting->editSetting('module_telenot', $this->request->post, 0);
 				$this->session->data['success'] = $this->language->get('text_success');
 			}
-			$this->response->redirect(HTTP_SERVER.'index.php?route=extension/module/telenot&store_id='.$this->request->get['store_id'] . '&user_token=' . $this->session->data['user_token']);
+			$this->response->redirect(HTTP_SERVER.'index.php?route=module/telenot&store_id='.$this->request->get['store_id'] . '&token=' . $this->session->data['token']);
 		}
 
 		if (isset($this->session->data['success'])) {
@@ -47,15 +47,15 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['breadcrumbs']   = array();
 		$this->data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], 'SSL'),
+			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL'),
 		);
 		$this->data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_module'),
-			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'], 'SSL'),
+			'href' => $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'),
 		);
 		$this->data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('extension/module/telenot', 'user_token=' . $this->session->data['user_token'], 'SSL'),
+			'href' => $this->url->link('module/telenot', 'token=' . $this->session->data['token'], 'SSL'),
 		);
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -74,15 +74,21 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['button_comment'] = $this->language->get('button_comment');
 		$this->data['button_status'] = $this->language->get('button_status');
 		$this->data['button_total'] = $this->language->get('button_total');
+		$this->data['button_chat_add'] = $this->language->get('button_chat_add');
+		$this->data['button_remove'] = $this->language->get('button_remove');
 
 		$this->data['tab_help'] = $this->language->get('tab_help');
 		$this->data['tab_settings'] = $this->language->get('tab_settings');
 
 		$this->data['entry_chats'] = $this->language->get('entry_chats');
-		$this->data['entry_bot'] = $this->language->get('entry_bot');
+		$this->data['entry_botname'] = $this->language->get('entry_botname');
 		$this->data['entry_enabled'] = $this->language->get('entry_enabled');
 		$this->data['entry_message'] = $this->language->get('entry_message');
 		$this->data['entry_api_key'] = $this->language->get('entry_api_key');
+		$this->data['entry_chat_id'] = $this->language->get('entry_chat_id');
+		$this->data['entry_chat_name'] = $this->language->get('entry_chat_name');
+		$this->data['entry_text'] = $this->language->get('entry_text');
+		$this->data['entry_check_api'] = $this->language->get('entry_check_api');
 
 		$this->data['text_description'] = $this->language->get('text_description');
 		$this->data['text_new_order'] = $this->language->get('text_new_order');
@@ -90,28 +96,34 @@ class ControllerExtensionModuleTelenot extends Controller {
 		$this->data['text_disable'] = $this->language->get('text_disable');
 
 		$this->data['help_message'] = $this->language->get('help_message');
+		$this->data['help_botname'] = $this->language->get('help_botname');
+		$this->data['help_api'] = $this->language->get('help_api');
+		$this->data['help_registration'] = $this->language->get('help_registration');
 
-		$this->data['entry_text'] = $this->language->get('entry_text');
 
 		$this->data['error_warning'] = '';
-		$this->data['action'] = $this->url->link('extension/module/telenot', 'user_token=' . $this->session->data['user_token'], 'SSL');
-		$this->data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'], 'SSL');
+		$this->data['action'] = $this->url->link('module/telenot', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
 
 		$this->data['data'] = $this->model_setting_setting->getSetting('module_telenot');
 
-		$this->data['user_token'] = $this->session->data['user_token'];
+		$this->data['token'] = $this->session->data['token'];
 
 		$this->data['header'] = $this->load->controller('common/header');
 		$this->data['column_left'] = $this->load->controller('common/column_left');
 		$this->data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('extension/module/telenot', $this->data));
+		$this->response->setOutput($this->load->view('module/telenot.tpl', $this->data));
 	}
 
 	public function install() {
-		$this->load->model('setting/event');
+		$this->load->model('extension/event');
 
-		$this->model_setting_event->addEvent('telenot', 'catalog/controller/checkout/success/before', 'extension/module/telenot/onCheckout');
+		if (strcmp(substr(VERSION, 0, 7), "2.1.0.2") <= 0) {
+			$this->model_extension_event->addEvent('telenot', 'post.order.history.add', 'module/telenot/onHistoryChange');
+		} else {
+			$this->model_extension_event->addEvent('telenot', 'catalog/model/checkout/order/addOrderHistory/after', 'module/telenot/onHistoryChange');
+		}
 
 		$this->load->model('setting/setting');
 		$basic=array(
@@ -130,8 +142,8 @@ class ControllerExtensionModuleTelenot extends Controller {
 		@file_get_contents( 'https://api.telegram.org/bot' . $settings['module_telenot_apikey'] . '/deleteWebhook' );
 
 		$this->model_setting_setting->deleteSetting('module_telenot', 0);
-		$this->load->model('setting/event');
-		$this->model_setting_event->deleteEventByCode('telenot');
+		$this->load->model('extension/event');
+		$this->model_extension_event->deleteEvent('telenot');
 
 	}
 
@@ -140,7 +152,7 @@ class ControllerExtensionModuleTelenot extends Controller {
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 
-			if (!$this->user->hasPermission('modify', 'extension/module/telenot')) {
+			if (!$this->user->hasPermission('modify', 'module/telenot')) {
 				$json['error'] = 403;
 				$json['text'] = 'You do not have permission to perform this action!';
 			}

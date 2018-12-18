@@ -1,5 +1,5 @@
 # telenot 1.0
-The module sending Telegram notifications for OpenCart 3.x
+The module sending Telegram notifications for OpenCart 2.1.x
 
 Description
 ===========
@@ -29,3 +29,4 @@ Install
 ========
 svmidi@gmail.com
 http://svm-zone.ru/
+https://github.com/svmidi/telenot/

@@ -12,6 +12,7 @@ $_['button_comment']           = 'Comment';
 $_['button_storename']         = 'Store name';
 $_['button_orderid']           = 'Order ID';
 $_['button_total']             = 'Total';
+$_['button_chat_add']          = 'Add chat';
 
 $_['tab_help']                 = 'Help';
 $_['tab_settings']             = 'Settings';
